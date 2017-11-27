@@ -112,9 +112,6 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gradeBoxActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;(header);"/>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="for(int i=0;i&lt;header.length;i++){&#xd;&#xa;    if(&#xd;&#xa;        header[i].toLowerCase().contains(&quot;aufgabe&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;exercise&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;task&quot;)&#xd;&#xa;    ){&#xd;&#xa;        gradeBox.setSelectedIndex(i);&#xd;&#xa;        break;&#xd;&#xa;    }&#xd;&#xa;}"/>
@@ -162,9 +159,6 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fNameBoxActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;(header);"/>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="for(int i=0;i&lt;header.length;i++){&#xd;&#xa;    if(&#xd;&#xa;        header[i].toLowerCase().contains(&quot;vorname&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;first name&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;given name&quot;)&#xd;&#xa;    ){&#xd;&#xa;        fNameBox.setSelectedIndex(i);&#xd;&#xa;        break;&#xd;&#xa;    }&#xd;&#xa;}"/>
@@ -177,9 +171,6 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lNameBoxActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;(header);"/>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="for(int i=0;i&lt;header.length;i++){&#xd;&#xa;    if(&#xd;&#xa;        header[i].toLowerCase().contains(&quot;nachname&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;last name&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;family name&quot;)&#xd;&#xa;    ){&#xd;&#xa;        lNameBox.setSelectedIndex(i);&#xd;&#xa;        break;&#xd;&#xa;    }&#xd;&#xa;}"/>
@@ -192,9 +183,6 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="matNoBoxActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;(header);"/>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="for(int i=0;i&lt;header.length;i++){&#xd;&#xa;    if(&#xd;&#xa;        header[i].toLowerCase().contains(&quot;nummer&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;number&quot;)&#xd;&#xa;        ||header[i].toLowerCase().contains(&quot;no.&quot;)&#xd;&#xa;    ){&#xd;&#xa;        matNoBox.setSelectedIndex(i);&#xd;&#xa;        break;&#xd;&#xa;    }&#xd;&#xa;}"/>

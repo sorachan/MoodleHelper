@@ -16,6 +16,7 @@
  */
 
 package moodlehelper;
+
 /**
  *
  * @author Sora Steenvoort
@@ -35,6 +36,7 @@ public class FormatWindow extends javax.swing.JDialog {
     public int[] showDialog(String[] Header){
         header = Header;
         initComponents();
+        getRootPane().setDefaultButton(okBtn);
         setVisible(true);
         return retVal;
     }
@@ -117,12 +119,6 @@ public class FormatWindow extends javax.swing.JDialog {
 
         jLabel2.setText("Grade field:");
 
-        gradeBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gradeBoxActionPerformed(evt);
-            }
-        });
-
         okBtn.setText("done");
         okBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,24 +131,6 @@ public class FormatWindow extends javax.swing.JDialog {
         jLabel4.setText("Last name:");
 
         jLabel5.setText("Matr. no.:");
-
-        fNameBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fNameBoxActionPerformed(evt);
-            }
-        });
-
-        lNameBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lNameBoxActionPerformed(evt);
-            }
-        });
-
-        matNoBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                matNoBoxActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -224,60 +202,6 @@ public class FormatWindow extends javax.swing.JDialog {
         retVal[4] = gradeBox.getSelectedIndex();
         dispose();
     }//GEN-LAST:event_okBtnActionPerformed
-
-    private void gradeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeBoxActionPerformed
-    }//GEN-LAST:event_gradeBoxActionPerformed
-
-    private void matNoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matNoBoxActionPerformed
-    }//GEN-LAST:event_matNoBoxActionPerformed
-
-    private void fNameBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fNameBoxActionPerformed
-    }//GEN-LAST:event_fNameBoxActionPerformed
-
-    private void lNameBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lNameBoxActionPerformed
-    }//GEN-LAST:event_lNameBoxActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormatWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormatWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormatWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormatWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FormatWindow dialog = new FormatWindow(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> fNameBox;

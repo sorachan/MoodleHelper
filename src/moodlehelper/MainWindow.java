@@ -31,6 +31,8 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -45,6 +47,7 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
     String[] studentLabels, grades;
     int activeStudent = -1;
     File activeFile;
+    TableView tView;
     
     /**
      * Creates new form MainWindow
@@ -59,12 +62,20 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             {
                 int quit = JOptionPane.showConfirmDialog(This,"Any unsaved progress will be lost!","Do you really want to quit?",JOptionPane.YES_NO_OPTION);
                 if(quit==JOptionPane.YES_OPTION){
+                    if(jCheckBox1.isSelected()){
+                        tView.dispose();
+                    }
                     dispose();
                 }
             }
         });
     }
 
+    public void unsetCheckbox(){
+        jCheckBox1.setSelected(false);
+        jCheckBox1ActionPerformed(null);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,8 +99,10 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
         jLabel4 = new javax.swing.JLabel();
         statusLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MoodleHelper v1.0");
 
         openBtn.setText("open");
         openBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +150,13 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
         jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel5.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
+        jCheckBox1.setText("table view");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -148,6 +168,8 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(openBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBox1)
+                        .addGap(18, 18, 18)
                         .addComponent(saveBtn)
                         .addGap(18, 18, 18)
                         .addComponent(saveAsBtn))
@@ -176,7 +198,8 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(openBtn)
                     .addComponent(saveBtn)
-                    .addComponent(saveAsBtn))
+                    .addComponent(saveAsBtn)
+                    .addComponent(jCheckBox1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -311,6 +334,9 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
                 grades[activeStudent]=String.format(Locale.ROOT,"%.2f",grVal);
                 statusLabel.setText("OK: mark set to "+String.format(Locale.ROOT,"%.2f",grVal));
             }
+            if(jCheckBox1.isSelected()){
+                tView.updateTable(activeStudent);
+            }
             findBox.setText("");
             gradeBox.setText("");
             findBox.requestFocus();
@@ -341,6 +367,49 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             statusLabel.setText("something went wrong...");
         }
     }//GEN-LAST:event_saveAsBtnActionPerformed
+
+    ListSelectionListener lsl = new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            if(tView.getClick()){
+                int n = tView.getSelectionModel().getAnchorSelectionIndex();
+                if(n>=0){
+                    setActiveStudent(n);
+                }
+                gradeBox.requestFocus();
+            }
+        }
+    };
+    
+    public void setActiveStudent(int n){
+        activeStudent = n;
+        studentLabel.setText(studentLabels[n]);
+    }
+    
+    
+    WindowAdapter wa = new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                unsetCheckbox();
+            }
+        };
+    
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        if(jCheckBox1.isSelected()){
+            if(tView==null){
+                tView = new TableView(wa);
+                tView.dispose();
+                tView.getSelectionModel().addListSelectionListener(lsl);
+            }
+            tView.showTable(lNameList, fNameList, matNoList, grades);
+            if(jCheckBox1.isSelected()&&findBox.getText().length()>0){
+                tView.updateTable(activeStudent);
+            }
+        }else{
+            tView.closeTable();
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -382,6 +451,7 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField findBox;
     private javax.swing.JTextField gradeBox;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,6 +473,10 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             if(match){
                 activeStudent = i;
                 studentLabel.setText(studentLabels[i]);
+                if(jCheckBox1.isSelected()&&findBox.getText().length()>0){
+                    tView.unsetClick();
+                    tView.updateTable(i);
+                }
                 break;
             }
         }
