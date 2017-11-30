@@ -62,7 +62,7 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             {
                 int quit = JOptionPane.showConfirmDialog(This,"Any unsaved progress will be lost!","Do you really want to quit?",JOptionPane.YES_NO_OPTION);
                 if(quit==JOptionPane.YES_OPTION){
-                    if(jCheckBox1.isSelected()){
+                    if(tableViewBox.isSelected()){
                         tView.dispose();
                     }
                     dispose();
@@ -72,8 +72,8 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
     }
 
     public void unsetCheckbox(){
-        jCheckBox1.setSelected(false);
-        jCheckBox1ActionPerformed(null);
+        tableViewBox.setSelected(false);
+        tableViewBoxActionPerformed(null);
     }
     
     /**
@@ -99,7 +99,8 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
         jLabel4 = new javax.swing.JLabel();
         statusLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        tableViewBox = new javax.swing.JCheckBox();
+        updateWarningBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MoodleHelper v1.0");
@@ -150,12 +151,14 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
         jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel5.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
-        jCheckBox1.setText("table view");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        tableViewBox.setText("table view");
+        tableViewBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                tableViewBoxActionPerformed(evt);
             }
         });
+
+        updateWarningBox.setText("update warning");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,7 +171,9 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(openBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1)
+                        .addComponent(updateWarningBox)
+                        .addGap(18, 18, 18)
+                        .addComponent(tableViewBox)
                         .addGap(18, 18, 18)
                         .addComponent(saveBtn)
                         .addGap(18, 18, 18)
@@ -199,7 +204,8 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
                     .addComponent(openBtn)
                     .addComponent(saveBtn)
                     .addComponent(saveAsBtn)
-                    .addComponent(jCheckBox1))
+                    .addComponent(tableViewBox)
+                    .addComponent(updateWarningBox))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -331,10 +337,23 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             }else{
                 float grVal = Float.parseFloat(gradeBox.getText().replace(",","."));
                 if(grVal<0)throw new Exception();
-                grades[activeStudent]=String.format(Locale.ROOT,"%.2f",grVal);
-                statusLabel.setText("OK: mark set to "+String.format(Locale.ROOT,"%.2f",grVal));
+                String old = grades[activeStudent];
+                int yn = JOptionPane.YES_OPTION;
+                if(!old.equals("-")&&updateWarningBox.isSelected()){
+                    yn = JOptionPane.showConfirmDialog(rootPane, "Do you really want to update this mark?", "Warning", JOptionPane.YES_NO_OPTION);
+                }
+                if(yn==JOptionPane.YES_OPTION){
+                    grades[activeStudent]=String.format(Locale.ROOT,"%.2f",grVal);
+                    if(old.equals("-")){
+                        statusLabel.setText("OK: mark set to "+String.format(Locale.ROOT,"%.2f",grVal));
+                    }else{
+                        statusLabel.setText("OK: mark updated from "+old+" to "+String.format(Locale.ROOT,"%.2f",grVal));
+                    }
+                }else{
+                    statusLabel.setText("OK: mark left unchanged");
+                }
             }
-            if(jCheckBox1.isSelected()){
+            if(tableViewBox.isSelected()){
                 tView.updateTable(activeStudent);
             }
             findBox.setText("");
@@ -395,21 +414,21 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             }
         };
     
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if(jCheckBox1.isSelected()){
+    private void tableViewBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableViewBoxActionPerformed
+        if(tableViewBox.isSelected()){
             if(tView==null){
                 tView = new TableView(wa);
                 tView.dispose();
                 tView.getSelectionModel().addListSelectionListener(lsl);
             }
             tView.showTable(lNameList, fNameList, matNoList, grades);
-            if(jCheckBox1.isSelected()&&findBox.getText().length()>0){
+            if(tableViewBox.isSelected()&&findBox.getText().length()>0){
                 tView.updateTable(activeStudent);
             }
         }else{
             tView.closeTable();
         }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_tableViewBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -451,7 +470,6 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField findBox;
     private javax.swing.JTextField gradeBox;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -463,6 +481,8 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
     private javax.swing.JButton saveBtn;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JLabel studentLabel;
+    private javax.swing.JCheckBox tableViewBox;
+    private javax.swing.JCheckBox updateWarningBox;
     // End of variables declaration//GEN-END:variables
 
     private void setActiveStudent(){
@@ -473,7 +493,7 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
             if(match){
                 activeStudent = i;
                 studentLabel.setText(studentLabels[i]);
-                if(jCheckBox1.isSelected()&&findBox.getText().length()>0){
+                if(tableViewBox.isSelected()&&findBox.getText().length()>0){
                     tView.unsetClick();
                     tView.updateTable(i);
                 }
@@ -494,6 +514,5 @@ public class MainWindow extends javax.swing.JFrame implements DocumentListener{
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
